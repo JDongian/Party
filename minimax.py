@@ -1,19 +1,21 @@
-#white_win = [['X', 'X', 'X', '_', '_', '_', '_', '_', '_'],['_', '_', '_', 'X', 'X', 'X', '_', '_', '_'], ['_', '_', '_', '_', '_', '_', 'X', 'X', 'X'], ['X', '_', '_', 'X', '_', '_', 'X', '_', '_'], ['_', 'X', '_', '_', 'X', '_' ,'_', 'X', '_'], ['_', '_', 'X', '_', '_', 'X', '_', '_', 'X'], ['X', '_', '_', '_', 'X', '_', '_', '_', 'X'], ['_', '_', 'X', '_', 'X', '_', 'X', '_', '_']]
-#black_win = [['O', 'O', 'O', '_', '_', '_', '_', '_', '_'],['_', '_', '_', 'O', 'O', 'O', '_', '_', '_'], ['_', '_', '_', '_', '_', '_', 'O', 'O', 'O'], ['O', '_', '_', 'O', '_', '_', 'O', '_', '_'], ['_', 'O', '_', '_', 'O', '_' ,'_', 'O', '_'], ['_', '_', 'O', '_', '_', 'O', '_', '_', 'O'], ['O', '_', '_', '_', 'O', '_', '_', '_', 'O'], ['_', '_', 'O', '_', 'O', '_', 'O', '_', '_']]
-win = [[0, 1, 2, 4], [4, 5, 6, 7], [8, 9, 10, 11], [12, 13, 14, 15], [0, 4, 8, 12], [1, 5, 9, 13], [2, 6, 10, 14], [3, 7, 11, 15], [0, 5, 10, 15], [3, 6, 9, 12]]
-board = ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
+"""minimax.py, a minimax implementation for Tic-Tac-Toe
+"""
 
-#win = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
-#board = ['_', '_', '_', '_', '_', '_', '_', '_', '_']
+#Terminal commands
+def move_cursor(row, col):
+    print("\033[{:d};{:d}H".format(row, col)),
 
-white_move = True
-board_row = 1
-board_col = 1
-analysis_row = 12
-analysis_col = 1
-dim = 4
+def clear_line():
+    print("\x1B[2K")
 
-table = {}
+def reset_terminal():
+    print("\x1B[2J")
+
+def hide_cursor():
+    print("\x1B[?25l")
+
+def show_cursor():
+    print("\x1B[?25h")
 
 def check_win(piece):
     global win
@@ -29,15 +31,6 @@ def line_complete(line, piece):
         if board[line[i]] != piece:
             return False
     return True
-
-
-#def check_white_win():
-#    global white_win
-#    global board
-#    for win in white_win:
-#        if win == board:
-#            return True
-#    return False
 
 def best_move():
     global white_move
@@ -106,7 +99,6 @@ def negamax():
     else:
         return 0
 
-
 def move(index, piece):
     global white_move
     global board
@@ -129,21 +121,6 @@ def update_board(row, col, index, piece):
     move_cursor((dim - 1) - (index / dim) + row, 2 * (index % dim) + col)
     print(piece)
 
-def move_cursor(row, col):
-    print("\033[{:d};{:d}H".format(row, col)),
-
-def clear_line():
-    print("\x1B[2K")
-
-def reset_terminal():
-    print("\x1B[2J")
-
-def hide_cursor():
-    print("\x1B[?25l")
-
-def show_cursor():
-    print("\x1B[?25h")
-
 def test():
     for i in range(dim * dim):
         update_board(board_row, board_col, i, i)
@@ -153,17 +130,58 @@ def check_board():
     print("board: "),
     print(board)
 
-def main():
-    global white_move
-    global board_row
-    global board_col
-    global table
+if __name__ == "__main__":
+    #white_win = [['X', 'X', 'X', '_', '_', '_', '_', '_', '_'],
+    #             ['_', '_', '_', 'X', 'X', 'X', '_', '_', '_'],
+    #             ['_', '_', '_', '_', '_', '_', 'X', 'X', 'X'],
+    #             ['X', '_', '_', 'X', '_', '_', 'X', '_', '_'],
+    #             ['_', 'X', '_', '_', 'X', '_' ,'_', 'X', '_'],
+    #             ['_', '_', 'X', '_', '_', 'X', '_', '_', 'X'],
+    #             ['X', '_', '_', '_', 'X', '_', '_', '_', 'X'],
+    #             ['_', '_', 'X', '_', 'X', '_', 'X', '_', '_']]
+    #black_win = [['O', 'O', 'O', '_', '_', '_', '_', '_', '_'],
+    #             ['_', '_', '_', 'O', 'O', 'O', '_', '_', '_'],
+    #             ['_', '_', '_', '_', '_', '_', 'O', 'O', 'O'],
+    #             ['O', '_', '_', 'O', '_', '_', 'O', '_', '_'],
+    #             ['_', 'O', '_', '_', 'O', '_' ,'_', 'O', '_'],
+    #             ['_', '_', 'O', '_', '_', 'O', '_', '_', 'O'],
+    #             ['O', '_', '_', '_', 'O', '_', '_', '_', 'O'],
+    #             ['_', '_', 'O', '_', 'O', '_', 'O', '_', '_']]
+    win = [[0, 1, 2, 4],
+           [4, 5, 6, 7],
+           [8, 9, 10, 11],
+           [12, 13, 14, 15],
+           [0, 4, 8, 12],
+           [1, 5, 9, 13],
+           [2, 6, 10, 14],
+           [3, 7, 11, 15],
+           [0, 5, 10, 15],
+           [3, 6, 9, 12]]
+    board = ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
+    #win = [[0, 1, 2],
+    #       [3, 4, 5],
+    #       [6, 7, 8],
+    #       [0, 3, 6],
+    #       [1, 4, 7],
+    #       [2, 5, 8],
+    #       [0, 4, 8],
+    #       [2, 4, 6]]
+    #board = ['_', '_', '_', '_', '_', '_', '_', '_', '_']
+    game_over = False
+    white_move = True
+    board_row = 1
+    board_col = 1
+    analysis_row = 12
+    analysis_col = 1
+    dim = 4
+
+    table = {}
+
     reset_terminal()
     #test()
     #raw_input()
     init_board(board_row, board_col)
     init_board(analysis_row, analysis_col)
-    game_over = False
     move_cursor(30, 0)
     usr_white = int(raw_input("Choose color: white(0), black(1): ")) == 0
     usr_piece = 'X' if usr_white else 'O'
@@ -188,7 +206,4 @@ def main():
         move_count += 1
     #print(table)
     print(len(table))
-
-if __name__ == "__main__":
-    main()
 
